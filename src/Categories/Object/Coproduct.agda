@@ -1,5 +1,5 @@
 {-# OPTIONS --without-K --safe #-}
-open import Categories.Category
+open import Categories.Category hiding (_[_,_])
 
 module Categories.Object.Coproduct {o ℓ e} (𝒞 : Category o ℓ e) where
 
@@ -70,3 +70,30 @@ IsCoproduct⇒Coproduct c = record
   }
   where
     open IsCoproduct c
+
+module _ {A B : Obj} where
+  open Coproduct {A} {B} renaming ([_,_] to _[_,_])
+
+  repack : (p₁ p₂ : Coproduct A B) → A+B p₁ ⇒ A+B p₂
+  repack p₁ p₂ = p₁ [ i₁ p₂ , i₂ p₂ ]
+
+  repack∘ : (p₁ p₂ p₃ : Coproduct A B) → repack p₂ p₃ ∘ repack p₁ p₂ ≈ repack p₁ p₃
+  repack∘ p₁ p₂ p₃ = ⟺ $ unique p₁ 
+    (glueTrianglesˡ (inject₁ p₂) (inject₁ p₁)) 
+    (glueTrianglesˡ (inject₂ p₂) (inject₂ p₁))
+
+  repack≡id : (p : Coproduct A B) → repack p p ≈ id
+  repack≡id = η
+
+  repack-cancel : (p₁ p₂ : Coproduct A B) → repack p₁ p₂ ∘ repack p₂ p₁ ≈ id
+  repack-cancel p₁ p₂ = repack∘ p₂ p₁ p₂ ○ repack≡id p₂
+
+up-to-iso : ∀ (p₁ p₂ : Coproduct A B) → Coproduct.A+B p₁ ≅ Coproduct.A+B p₂
+up-to-iso p₁ p₂ = record
+  { from = repack p₁ p₂
+  ; to   = repack p₂ p₁
+  ; iso  = record
+    { isoˡ = repack-cancel p₂ p₁
+    ; isoʳ = repack-cancel p₁ p₂
+    }
+  }
