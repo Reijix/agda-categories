@@ -47,7 +47,7 @@ NNO×CCC⇒PNNO nno = record
       ((eval′ ∘ (universal (λg (f ∘ π₂)) (λg (g ∘ eval′)) ⁂ id)) ∘ swap) ∘ ⟨ id , z ∘ ! ⟩ ∎
     ; commute₂ = λ {A} {X} {f} {g} → begin
       g ∘ (eval′ ∘ (universal (λg (f ∘ π₂)) (λg (g ∘ eval′)) ⁂ id)) ∘ swap                       ≈⟨ pullˡ (pullˡ (⟺ β′)) ⟩
-      ((eval′ ∘ (λg (g ∘ eval′) ⁂ id)) ∘ (universal (λg (f ∘ π₂)) (λg (g ∘ eval′)) ⁂ id)) ∘ swap ≈⟨ (pullʳ ⁂∘⁂) ⟩∘⟨refl ⟩
+      ((eval′ ∘ (λg (g ∘ eval′) ⁂ id)) ∘ (universal (λg (f ∘ π₂)) (λg (g ∘ eval′)) ⁂ id)) ∘ swap ≈⟨ pullʳ ⁂∘⁂ ⟩∘⟨refl ⟩
       (eval′ ∘ (λg (g ∘ eval′) ∘  universal (λg (f ∘ π₂)) (λg (g ∘ eval′)) ⁂ id ∘ id)) ∘ swap    ≈⟨ (refl⟩∘⟨ (⁂-cong₂ s-commute refl)) ⟩∘⟨refl ⟩
       (eval′ ∘ (universal (λg (f ∘ π₂))  (λg (g ∘ eval′)) ∘ s ⁂ id ∘ id)) ∘ swap                 ≈⟨ (refl⟩∘⟨ (⟺ ⁂∘⁂)) ⟩∘⟨refl ⟩
       (eval′ ∘ (universal (λg (f ∘ π₂)) (λg (g ∘ eval′)) ⁂ id) ∘ (s ⁂ id)) ∘ swap                ≈⟨ pullʳ (pullʳ (⟺ swap∘⁂)) ⟩

@@ -10,16 +10,17 @@ open import Categories.Category.BinaryProducts using (BinaryProducts)
 module Categories.Object.NaturalNumbers.Parametrized {o ℓ e} (CC : CartesianCategory o ℓ e) where
 
 open import Level
-open CartesianCategory CC renaming (U to 𝒞)
-open BinaryProducts products hiding (η; unique)
 
-open import Categories.Object.NaturalNumbers 𝒞 terminal using (IsNNO; NNO) renaming (up-to-iso to nno-up-to-iso)
+open CartesianCategory CC renaming (U to 𝒞)
+open HomReasoning
+open Equiv
+
 open import Categories.Morphism 𝒞 using (_≅_)
 open import Categories.Morphism.Reasoning 𝒞
 
-open HomReasoning
-open Equiv
+open BinaryProducts products hiding (η; unique)
 open Terminal terminal using (⊤; !; !-unique₂)
+open import Categories.Object.NaturalNumbers 𝒞 terminal using (IsNNO; NNO) renaming (up-to-iso to nno-up-to-iso)
 
 
 private
@@ -49,7 +50,7 @@ record IsParametrizedNNO (N : Obj) : Set (o ⊔ ℓ ⊔ e) where
     ; universal = λ {A} q f → universal q f ∘ ⟨ ! , id ⟩
     ; z-commute = λ {A} {q} {f} → begin 
       q                                  ≈⟨ commute₁ ⟩ 
-      universal q f ∘ ⟨ id , z ∘ ! ⟩     ≈⟨ refl⟩∘⟨ ⟨⟩-cong₂ !-unique₂ (⟺ z∘! ○ ⟺ identityˡ) ⟩
+      universal q f ∘ ⟨ id , z ∘ ! ⟩     ≈⟨ refl⟩∘⟨ ⟨⟩-cong₂ !-unique₂ (⟺ (identityˡ ○ z∘!)) ⟩
       universal q f ∘ ⟨ ! ∘ z , id ∘ z ⟩ ≈˘⟨ pullʳ ⟨⟩∘ ⟩
       (universal q f ∘ ⟨ ! , id ⟩) ∘ z   ∎
     ; s-commute = λ {A} {q} {f} → begin 
